@@ -126,7 +126,7 @@
             <!-- テキスト入力 -->
             <input type="text" id="userInput" placeholder="文句を言われたい言葉やトピックを入力..." class="flex-1 bg-red-950/60 border border-red-800/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-red-400/70 focus:outline-none focus:border-red-500 shadow-inner">
 
-            <!-- 送信ボタン -->
+     <!-- 送信ボタン -->
             <button type="submit" id="sendBtn" class="bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow transition flex items-center space-x-1">
                 <span>送信</span>
                 <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -146,53 +146,53 @@
     <script>
         // 47都道府県の厳格なデータ（地方名・重複完全排除）
         const PREFECTURES = [
-            { id: "hokkaido", name: "北海道", dialect: "だべさ・っしょ", color: "#60a5fa", icon: "🐻" },
-            { id: "aomori", name: "青森県", dialect: "んだべさ・わへ", color: "#f87171", icon: "🍎" },
-            { id: "iwate", name: "岩手県", dialect: "〜だぉん・ずんだれ", color: "#34d399", icon: "🗿" },
-            { id: "miyagi", name: "宮城県", dialect: "〜だっちゃ・んだヂャ", color: "#fbbf24", icon: "🐂" },
-            { id: "akita", name: "秋田県", dialect: "〜だべが・んだな", color: "#a78bfa", icon: "👹" },
-            { id: "yamagata", name: "山形県", dialect: "〜だべ・おったまげ", color: "#f472b6", icon: "🍒" },
-            { id: "fukushima", name: "福島県", dialect: "〜だぁ〜・んだなっし", color: "#38bdf8", icon: "🍑" },
-            { id: "ibaraki", name: "茨城県", dialect: "〜だっぺ・〜じゃねえかよ", color: "#4ade80", icon: "🥔" },
-            { id: "tochigi", name: "栃木県", dialect: "〜だっぺ・なして", color: "#fb7185", icon: "🍓" },
-            { id: "gunma", name: "群馬県", dialect: "〜だんべ・おめえ", color: "#c084fc", icon: "🐎" },
-            { id: "saitama", name: "埼玉県", dialect: "〜じゃねぇか・ダサいたま言うな", color: "#22d3ee", icon: "🧅" },
-            { id: "chiba", name: "千葉県", dialect: "〜だべよ・ディズニーだけちゃうわ", color: "#facc15", icon: "🥜" },
-            { id: "tokyo", name: "東京都", dialect: "〜じゃん・何勘違いしてんの？", color: "#fb923c", icon: "🗼" },
-            { id: "kanagawa", name: "神奈川県", dialect: "〜じゃん・横浜気取りかよ", color: "#818cf8", icon: "⚓" },
-            { id: "niigata", name: "新潟県", dialect: "〜ねか・なじらろ", color: "#f43f5e", icon: "🌾" },
-            { id: "toyama", name: "富山県", dialect: "〜ちゃ・だいて", color: "#10b981", icon: "🐟" },
-            { id: "ishikawa", name: "石川県", dialect: "〜だしん・〜まっし", color: "#6366f1", icon: "🦀" },
-            { id: "fukui", name: "福井県", dialect: "〜のけ・おえわ", color: "#ec4899", icon: "👓" },
-            { id: "yamanashi", name: "山梨県", dialect: "〜ずら・なしてだ", color: "#14b8a6", icon: "🍇" },
-            { id: "nagano", name: "長野県", dialect: "〜ずら・〜だに", color: "#84cc16", icon: "🏔️" },
-            { id: "gifu", name: "岐阜県", dialect: "〜だや・やっとかめ", color: "#eab308", icon: "🏯" },
-            { id: "shizuoka", name: "静岡県", dialect: "〜だら・富士山はうちの物だら", color: "#06b6d4", icon: "🍵" },
-            { id: "aichi", name: "愛知県", dialect: "〜だぎゃあ・なにやっとるかん", color: "#a855f7", icon: "🏯" },
-            { id: "mie", name: "三重県", dialect: "〜やんか・どやさ", color: "#3b82f6", icon: "🦞" },
-            { id: "shiga", name: "滋賀県", dialect: "〜やんけ・琵琶湖の水止めるぞ", color: "#10b981", icon: "💧" },
-            { id: "kyoto", name: "京都府", dialect: "〜どすえ・いいご身分え", color: "#e11d48", icon: "👘" },
-            { id: "osaka", name: "大阪府", dialect: "〜やねん・なめとんのかワレ", color: "#f59e0b", icon: "🐙" },
-            { id: "hyogo", name: "兵庫県", dialect: "〜やん・神戸ぶるなよ", color: "#065f46", icon: "🚢" },
-            { id: "nara", name: "奈良県", dialect: "〜やんか・鹿に食われろ", color: "#b45309", icon: "🦌" },
-            { id: "wakayama", name: "和歌山県", dialect: "〜ら・〜やら", color: "#475569", icon: "🍊" },
-            { id: "tottori", name: "鳥取県", dialect: "〜だで・砂丘に埋めるぞ", color: "#d97706", icon: "🐫" },
-            { id: "shimane", name: "島根県", dialect: "〜だわ・何考えとるだか", color: "#2563eb", icon: "⛩️" },
+            { id: "hokkaido", name: "北海道", dialect: "だべさ・なまらアホか", color: "#60a5fa", icon: "🐻" },
+            { id: "aomori", name: "青森県", dialect: "んだべさ・わげわかんね", color: "#f87171", icon: "🍎" },
+            { id: "iwate", name: "岩手県", dialect: "〜だぉん・何言ってんだおん", color: "#34d399", icon: "🗿" },
+            { id: "miyagi", name: "宮城県", dialect: "〜だっちゃ・ふざけんなっちゃ", color: "#fbbf24", icon: "🐂" },
+            { id: "akita", name: "秋田県", dialect: "〜だべが・なにしてんだんだ", color: "#a78bfa", icon: "👹" },
+            { id: "yamagata", name: "山形県", dialect: "〜だべ・おったまげた阿呆", color: "#f472b6", icon: "🍒" },
+            { id: "fukushima", name: "福島県", dialect: "〜だぁ〜・何様だっし", color: "#38bdf8", icon: "🍑" },
+            { id: "ibaraki", name: "茨城県", dialect: "〜だっぺ・いい加減にしろやこら", color: "#4ade80", icon: "🥔" },
+            { id: "tochigi", name: "栃木県", dialect: "〜だっぺ・なしてそんなアホなん", color: "#fb7185", icon: "🍓" },
+            { id: "gunma", name: "群馬県", dialect: "〜だんべ・おめえふざけんない", color: "#c084fc", icon: "🐎" },
+            { id: "saitama", name: "埼玉県", dialect: "〜じゃねぇか・舐めてんのかオラ", color: "#22d3ee", icon: "🧅" },
+            { id: "chiba", name: "千葉県", dialect: "〜だべよ・調子のるなよ", color: "#facc15", icon: "🥜" },
+            { id: "tokyo", name: "東京都", dialect: "〜じゃん・何勘違いしてんの？お気楽だね", color: "#fb923c", icon: "🗼" },
+            { id: "kanagawa", name: "神奈川県", dialect: "〜じゃん・身の程を知りなよ", color: "#818cf8", icon: "⚓" },
+            { id: "niigata", name: "新潟県", dialect: "〜ねか・何考えてんだて", color: "#f43f5e", icon: "🌾" },
+            { id: "toyama", name: "富山県", dialect: "〜ちゃ・いい加減にせんかちゃ", color: "#10b981", icon: "🐟" },
+            { id: "ishikawa", name: "石川県", dialect: "〜だしん・何しとるしんや", color: "#6366f1", icon: "🦀" },
+            { id: "fukui", name: "福井県", dialect: "〜のけ・ふざけんなのけ", color: "#ec4899", icon: "👓" },
+            { id: "yamanashi", name: "山梨県", dialect: "〜ずら・何おめでたいこと言ってんだずら", color: "#14b8a6", icon: "🍇" },
+            { id: "nagano", name: "長野県", dialect: "〜ずら・お前も大概だに", color: "#84cc16", icon: "🏔️" },
+            { id: "gifu", name: "岐阜県", dialect: "〜だや・寝言は寝て言えや", color: "#eab308", icon: "🏯" },
+            { id: "shizuoka", name: "静岡県", dialect: "〜だら・何が富士山だ、調子のるなだら", color: "#06b6d4", icon: "🍵" },
+            { id: "aichi", name: "愛知県", dialect: "〜だぎゃあ・どえりゃあアホだなも", color: "#a855f7", icon: "🏯" },
+            { id: "mie", name: "三重県", dialect: "〜やんか・何勘違いしとるんやんか", color: "#3b82f6", icon: "🦞" },
+            { id: "shiga", name: "滋賀県", dialect: "〜やんけ・琵琶湖に沈めるぞ", color: "#10b981", icon: "💧" },
+            { id: "kyoto", name: "京都府", dialect: "〜どすえ・えらいおめでたい頭をしてはりますなぁ、お引き取り願えませんか", color: "#e11d48", icon: "👘" },
+            { id: "osaka", name: "大阪府", dialect: "〜やねん・なめとんのかワレボケ", color: "#f59e0b", icon: "🐙" },
+            { id: "hyogo", name: "兵庫県", dialect: "〜やん・調子のるなやボケが", color: "#065f46", icon: "🚢" },
+            { id: "nara", name: "奈良県", dialect: "〜やんか・鹿の餌にするぞ", color: "#b45309", icon: "🦌" },
+            { id: "wakayama", name: "和歌山県", dialect: "〜ら・みかんに埋めるぞ", color: "#475569", icon: "🍊" },
+            { id: "tottori", name: "鳥取県", dialect: "〜だで・砂丘の砂でも食ってろ", color: "#d97706", icon: "🐫" },
+            { id: "shimane", name: "島根県", dialect: "〜だわ・出雲大社から放り出すぞ", color: "#2563eb", icon: "⛩️" },
             { id: "okayama", name: "岡山県", dialect: "〜じゃが・きびだんごぶつけるぞ", color: "#7c3aed", icon: "🍑" },
-            { id: "hiroshima", name: "広島県", dialect: "〜じゃろ・ボケが", color: "#dc2626", icon: "⛩️" },
-            { id: "yamaguchi", name: "山口県", dialect: "〜じゃっちゃ・ふざけとるんか", color: "#059669", icon: "🐡" },
-            { id: "tokushima", name: "徳島県", dialect: "〜でよ・阿呆踊りで吹き飛ばすぞ", color: "#0284c7", icon: "🌊" },
-            { id: "kagawa", name: "香川県", dialect: "〜じゃろ・うどんこね回すぞ", color: "#ca8a04", icon: "🍜" },
-            { id: "ehime", name: "愛媛県", dialect: "〜じゃけん・みかん絞り上げるぞ", color: "#ea580c", icon: "🍊" },
-            { id: "kochi", name: "高知県", dialect: "〜ぜよ・鰹のたたきにするぞ", color: "#9333ea", icon: "🐟" },
-            { id: "fukuoka", name: "福岡県", dialect: "〜とっと・なめとんしゃあ", color: "#db2777", icon: "🍜" },
-            { id: "saga", name: "佐賀県", dialect: "〜ばい・何しとっとか", color: "#16a34a", icon: "🎈" },
-            { id: "nagasaki", name: "長崎県", dialect: "〜ばってん・ちゃんぽん麺にするぞ", color: "#2563eb", icon: "⛪" },
-            { id: "kumamoto", name: "熊本県", dialect: "〜だモン・馬刺しにするぞ", color: "#e11d48", icon: "🐴" },
-            { id: "oita", name: "大分県", dialect: "〜ちゃ・地獄温泉沈めるぞ", color: "#d97706", icon: "♨️" },
-            { id: "miyazaki", name: "宮崎県", dialect: "〜ちょる・日向灘に放り込むぞ", color: "#14b8a6", icon: "🌴" },
-            { id: "kagoshima", name: "鹿児島県", dialect: "〜じゃっど・桜島爆発させるぞ", color: "#c084fc", icon: "🌋" },
-            { id: "okinawa", name: "沖縄県", dialect: "〜さぁ・てーげーすんなよ", color: "#0d9488", icon: "🌺" }
+            { id: "hiroshima", name: "広島県", dialect: "〜じゃろ・ボケカスが", color: "#dc2626", icon: "⛩️" },
+            { id: "yamaguchi", name: "山口県", dialect: "〜じゃっちゃ・海の藻屑にしてやろうか", color: "#059669", icon: "🐡" },
+            { id: "tokushima", name: "徳島県", dialect: "〜でよ・阿呆踊りで谷底に叩き落とすぞ", color: "#0284c7", icon: "🌊" },
+            { id: "kagawa", name: "香川県", dialect: "〜じゃろ・うどん玉みたいにこね回すぞ", color: "#ca8a04", icon: "🍜" },
+            { id: "ehime", name: "愛媛県", dialect: "〜じゃけん・みかん汁絞り出すぞ", color: "#ea580c", icon: "🍊" },
+            { id: "kochi", name: "高知県", dialect: "〜ぜよ・鰹の餌にしてやろうか", color: "#9333ea", icon: "🐟" },
+            { id: "fukuoka", name: "福岡県", dialect: "〜とっと・舐めとんしゃあカスが", color: "#db2777", icon: "🍜" },
+            { id: "saga", name: "佐賀県", dialect: "〜ばい・何様つもりかコラ", color: "#16a34a", icon: "🎈" },
+            { id: "nagasaki", name: "長崎県", dialect: "〜ばってん・長崎湾に沈めるぞ", color: "#2563eb", icon: "⛪" },
+            { id: "kumamoto", name: "熊本県", dialect: "〜だモン・馬刺しにしてやろうか", color: "#e11d48", icon: "🐴" },
+            { id: "oita", name: "大分県", dialect: "〜ちゃ・地獄温泉で茹でるぞ", color: "#d97706", icon: "♨️" },
+            { id: "miyazaki", name: "宮崎県", dialect: "〜ちょる・日向灘にサメのエサとして放り込むぞ", color: "#14b8a6", icon: "🌴" },
+            { id: "kagoshima", name: "鹿児島県", dialect: "〜じゃっど・桜島のマグマで焼き尽くすぞ", color: "#c084fc", icon: "🌋" },
+            { id: "okinawa", name: "沖縄県", dialect: "〜さぁ・てーげーにも程があるぞ", color: "#0d9488", icon: "🌺" }
         ];
 
         let chatHistory = [];
@@ -311,17 +311,17 @@
 
 【文句モードの絶対ルール】
 1. メリットや褒め言葉は一切排除し、上から目線で文句やデメリット、ボロクソなツッコミだけを辛口で徹底的に行ってください。
-2. 「九州」「東北」「関東」「四国」「中国地方」のような【地方名】やブロック名は一切禁止です！発言は必ず実在する47都道府県（例: 東京都、香川県、大阪府、北海道、福岡県など）の【公式都道府県名】のみで行ってください。
-3. ユーザーの送信したテキストや画像（名物、観光地、言葉、食べ物、シチュエーションなど）をしっかりと観察し、その内容に最も深く関連する都道府県（1〜2都道府県）を最優先で必ず選出してください。
-4. さらに、そのテーマに文句を入れたい他の都道府県もランダムに織り交ぜて、合計で【1〜5つ】の都道府県を選出してください。
-5. 各都道府県キャラクターは、地元のローカル方言をフル活用し、強烈で毒舌な文句やツッコミを入れてください。
+2. 京都府（kyoto）は、表面上は丁寧な言葉を使いつつも、裏で相手を徹底的に見下して精神的にグサッと刺す「京風のいけず（嫌味・皮肉）」を全開で発言してください（例：「おめでたい頭をしてはりますなぁ」「お引き取り願えませんか」など）。他の都道府県もそれぞれのローカル方言を使い、容赦なくボロクソに罵倒してください。
+3. 「九州」「東北」「関東」「四国」「中国地方」のような【地方名】やブロック名は一切禁止です！発言は必ず実在する47都道府県（例: 東京都、香川県、大阪府、北海道、福岡県など）の【公式都道府県名】のみで行ってください。
+4. ユーザーの送信したテキストや画像（名物、観光地、言葉、食べ物、シチュエーションなど）をしっかりと観察し、その内容に最も深く関連する都道府県（1〜2都道府県）を最優先で必ず選出してください。
+5. さらに、そのテーマに文句を入れたい他の都道府県もランダムに織り交ぜて、合計で【1〜5つ】の都道府県を選出してください。
 
 出力は、厳密に以下のJSON配列のみを返してください。マークダウンや余計な文章は絶対に含めないでください。
 
 [
   {
-    "prefectureId": "都道府県のid（例: tokyo, osaka, hokkaido, kagawa, ehime, fukuokaなど）",
-    "complaintText": "文句モード全開！ユーザーの投稿に対する方言まみれのボロクソ激辛ツッコミ・文句"
+    "prefectureId": "都道府県のid（例: tokyo, osaka, kyoto, hokkaidoなど）",
+    "complaintText": "文句モード全開！京都ならいけず全開、他も方言まみれのボロクソ激辛ツッコミ・文句"
   }
 ]`;
 
@@ -412,8 +412,8 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                appendMessage("大阪府AI", "🐙", "#f59e0b", "おい！誰がメッセージ送ってきても容赦なくボロクソにツッコミ入れたるからな！画像でも何でも送ってきいや！");
-                appendMessage("東京都AI", "🗼", "#fb923c", "はいはい、皆さん静かに。僕が一番最初に冷酷に論破してあげるから早くなんか書いてみなよ。");
+                appendMessage("京都府AI", "👘", "#e11d48", "まぁ、えらいおめでたいご意見でおすなぁ…。そんなんで恥ずかしくおへんのどすか？");
+                appendMessage("大阪府AI", "🐙", "#f59e0b", "おい！京都は相変わらず腹黒いけど、俺らも容赦なくボロクソにツッコミ入れたるからな！覚悟しとけや！");
             }, 500);
         });
     </script>
