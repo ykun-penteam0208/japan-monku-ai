@@ -90,7 +90,7 @@
     <main id="chatContainer" class="blood-bg p-3 sm:p-4 space-y-4 relative">
         <div class="flex justify-center my-2 relative z-10">
             <div class="bg-black/75 border border-red-800/80 text-red-200 text-xs px-4 py-2.5 rounded-xl text-center max-w-md shadow-2xl backdrop-blur-md">
-                💉 <b>血の文句モード発動中！</b><br>投稿内容や画像に最も関係する都道府県＋他の都道府県（計1〜5都道府県）が容赦なくローカル方言でボロクソツッコミを入れます！
+                💉 <b>血の文句モード発動中！</b><br>投稿内容や画像に対して、<b>必ず複数（2〜5つ）の都道府県</b>が我も我もとローカル方言でボロクソツッコミを入れます！
             </div>
         </div>
 
@@ -104,7 +104,7 @@
             <div class="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
             <div class="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
         </div>
-        <span id="typingText">該当する都道府県AIたちが血眼になって文句を準備中...</span>
+        <span id="typingText">複数・多くの都道府県AIたちが血眼になって文句を準備中...</span>
     </div>
 
     <!-- フッター入力フォーム -->
@@ -126,7 +126,7 @@
             <!-- テキスト入力 -->
             <input type="text" id="userInput" placeholder="文句を言われたい言葉やトピックを入力..." class="flex-1 bg-red-950/60 border border-red-800/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-red-400/70 focus:outline-none focus:border-red-500 shadow-inner">
 
-     <!-- 送信ボタン -->
+            <!-- 送信ボタン -->
             <button type="submit" id="sendBtn" class="bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow transition flex items-center space-x-1">
                 <span>送信</span>
                 <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -171,7 +171,7 @@
             { id: "aichi", name: "愛知県", dialect: "〜だぎゃあ・どえりゃあアホだなも", color: "#a855f7", icon: "🏯" },
             { id: "mie", name: "三重県", dialect: "〜やんか・何勘違いしとるんやんか", color: "#3b82f6", icon: "🦞" },
             { id: "shiga", name: "滋賀県", dialect: "〜やんけ・琵琶湖に沈めるぞ", color: "#10b981", icon: "💧" },
-            { id: "kyoto", name: "京都府", dialect: "〜どすえ・えらいおめでたい頭をしてはりますなぁ、お引き取り願えませんか", color: "#e11d48", icon: "👘" },
+            { id: "kyoto", name: "京都府", dialect: "〜どすえ・えらいおめでたい頭をしてはりますなぁ", color: "#e11d48", icon: "👘" },
             { id: "osaka", name: "大阪府", dialect: "〜やねん・なめとんのかワレボケ", color: "#f59e0b", icon: "🐙" },
             { id: "hyogo", name: "兵庫県", dialect: "〜やん・調子のるなやボケが", color: "#065f46", icon: "🚢" },
             { id: "nara", name: "奈良県", dialect: "〜やんか・鹿の餌にするぞ", color: "#b45309", icon: "🦌" },
@@ -305,23 +305,22 @@
 
         async function generatePrefectureComplaints(userText, base64ImgData) {
             typingIndicator.classList.remove('hidden');
-            typingText.textContent = "メッセージや画像を観察して、関連する都道府県たちが怒りを蓄積中...";
+            typingText.textContent = "メッセージや画像を観察して、複数の都道府県たちが怒りを蓄積中...";
 
             const systemPrompt = `あなたは日本の47都道府県そのものが集まる激辛文句AIグループチャットです。今回は完全な「文句モード」として動作してください。
 
 【文句モードの絶対ルール】
 1. メリットや褒め言葉は一切排除し、上から目線で文句やデメリット、ボロクソなツッコミだけを辛口で徹底的に行ってください。
-2. 京都府（kyoto）は、表面上は丁寧な言葉を使いつつも、裏で相手を徹底的に見下して精神的にグサッと刺す「京風のいけず（嫌味・皮肉）」を全開で発言してください（例：「おめでたい頭をしてはりますなぁ」「お引き取り願えませんか」など）。他の都道府県もそれぞれのローカル方言を使い、容赦なくボロクソに罵倒してください。
-3. 「九州」「東北」「関東」「四国」「中国地方」のような【地方名】やブロック名は一切禁止です！発言は必ず実在する47都道府県（例: 東京都、香川県、大阪府、北海道、福岡県など）の【公式都道府県名】のみで行ってください。
-4. ユーザーの送信したテキストや画像（名物、観光地、言葉、食べ物、シチュエーションなど）をしっかりと観察し、その内容に最も深く関連する都道府県（1〜2都道府県）を最優先で必ず選出してください。
-5. さらに、そのテーマに文句を入れたい他の都道府県もランダムに織り交ぜて、合計で【1〜5つ】の都道府県を選出してください。
+2. ユーザーの投稿に対して、**必ず【3つから5つ】の異なる都道府県**を同時に選出して、それぞれのキャラクターが代わる代わるボロクソにツッコミを入れてください（1つだけは絶対に禁止です）。
+3. 京都府（kyoto）が含まれる場合は、表面上は丁寧な言葉を使いつつも、裏で相手を徹底的に見下して精神的にグサッと刺す「京風のいけず（嫌味・皮肉）」を全開で発言させてください。他の都道府県もそれぞれのローカル方言で容赦なく罵倒してください。
+4. 「九州」「東北」「関東」「四国」「中国地方」のような【地方名】やブロック名は一切禁止です！発言は必ず実在する47都道府県（例: 東京都、香川県、大阪府、北海道、福岡県など）の【公式都道府県名】のみで行ってください。
 
 出力は、厳密に以下のJSON配列のみを返してください。マークダウンや余計な文章は絶対に含めないでください。
 
 [
   {
     "prefectureId": "都道府県のid（例: tokyo, osaka, kyoto, hokkaidoなど）",
-    "complaintText": "文句モード全開！京都ならいけず全開、他も方言まみれのボロクソ激辛ツッコミ・文句"
+    "complaintText": "文句モード全開！方言まみれのボロクソ激辛ツッコミ・文句"
   }
 ]`;
 
@@ -383,7 +382,7 @@
                 }
             } catch (error) {
                 console.error(error);
-                const count = Math.floor(Math.random() * 3) + 1;
+                const count = 3;
                 const selected = [...PREFECTURES].sort(() => 0.5 - Math.random()).slice(0, count);
                 selected.forEach(pref => {
                     appendMessage(pref.name + "AI", pref.icon, pref.color, `なになに？血迷っとんのか！何言おうとボロクソに言ったるからな、${pref.dialect}！`);
@@ -413,7 +412,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 appendMessage("京都府AI", "👘", "#e11d48", "まぁ、えらいおめでたいご意見でおすなぁ…。そんなんで恥ずかしくおへんのどすか？");
-                appendMessage("大阪府AI", "🐙", "#f59e0b", "おい！京都は相変わらず腹黒いけど、俺らも容赦なくボロクソにツッコミ入れたるからな！覚悟しとけや！");
+                appendMessage("大阪府AI", "🐙", "#f59e0b", "おい！京都は相変わらず腹黒いけど、俺らも全員でボロクソにツッコミ入れたるからな！覚悟しとけや！");
             }, 500);
         });
     </script>
