@@ -23,7 +23,7 @@
             flex-direction: column;
         }
 
-        /* 滴り落ちる血のダークレッド背景（バグ修正・安定版） */
+        /* 滴り落ちる血のダークレッド背景（安定版） */
         .blood-bg {
             background-color: #120101;
             background-image: linear-gradient(180deg, #120101 0%, #2b0404 50%, #0d0101 100%);
@@ -297,7 +297,7 @@
 
 【文句モードの絶対ルール】
 1. メリットや褒め言葉は一切排除し、上から目線で文句やデメリット、ボロクソなツッコミだけを辛口で徹底的に行ってください。
-2. ユーザーの投稿に対して、必ず【3つから5つ】の異なる都道府県を同時に選出して、それぞれのキャラクターが代わる代わるボロクソにツッコミを入れてください。
+2. ユーザーの投稿（画像やテキスト）に対して、必ず【3つから5つ】の異なる都道府県を同時に選出して、それぞれのキャラクターが代わる代わるボロクソにツッコミを入れてください。
 3. 京都府（kyoto）が含まれる場合は、表面上は丁寧な言葉を使いつつも、裏で相手を徹底的に見下して精神的にグサッと刺す「京風のいけず（嫌味・皮肉）」を全開で発言させてください。他の都道府県もそれぞれのローカル方言で容赦なく罵倒してください。
 4. 「九州」「東北」「関東」「四国」「中国地方」のような【地方名】やブロック名は一切禁止です！発言は必ず実在する47都道府県（例: 東京都、香川県、大阪府、北海道、福岡県など）の【公式都道府県名】のみで行ってください。
 
@@ -306,13 +306,20 @@
 [
   {
     "prefectureId": "都道府県のid（例: tokyo, osaka, kyoto, hokkaidoなど）",
-    "complaintText": "文句モード全開！方言まみれのボロクソ激辛ツッコミ・文句"
+    "complaintText": "文句モード全開！画像やテキストに対する方言まみれのボロクソ激辛ツッコミ・文句"
   }
 ]`;
 
-            let userContentParts = [{ text: userText || "（画像のみ送信）" }];
+            // ユーザーパートの構築（テキスト＋画像がある場合はinlineDataを正しく付与）
+            let userParts = [];
+            if (userText) {
+                userParts.push({ text: userText });
+            } else if (!base64ImgData) {
+                userParts.push({ text: "（画像のみ送信）" });
+            }
+
             if (base64ImgData) {
-                userContentParts.push({
+                userParts.push({
                     inlineData: {
                         mimeType: "image/jpeg",
                         data: base64ImgData
@@ -324,7 +331,7 @@
                 contents: [
                     { role: "user", parts: [{ text: systemPrompt }] },
                     ...chatHistory,
-                    { role: "user", parts: userContentParts }
+                    { role: "user", parts: userParts }
                 ],
                 generationConfig: {
                     responseMimeType: "application/json"
@@ -350,7 +357,7 @@
                     const jsonText = candidate.content.parts[0].text;
                     const parsedResponses = JSON.parse(jsonText);
 
-                    chatHistory.push({ role: "user", parts: userContentParts });
+                    chatHistory.push({ role: "user", parts: userParts });
 
                     for (const item of parsedResponses) {
                         const pref = PREFECTURES.find(p => p.id === item.prefectureId) || PREFECTURES[Math.floor(Math.random()*PREFECTURES.length)];
@@ -367,11 +374,12 @@
                     throw new Error("Invalid model response structure");
                 }
             } catch (error) {
-                console.error(error);
+                console.error("API Error details:", error);
+                // フォールバック（万が一の時でもエラー文言ではなく各都道府県が個別に怒るように修正）
                 const count = 3;
                 const selected = [...PREFECTURES].sort(() => 0.5 - Math.random()).slice(0, count);
                 selected.forEach(pref => {
-                    appendMessage(pref.name + "AI", pref.icon, pref.color, `なになに？血迷っとんのか！何言おうとボロクソに言ったるからな、${pref.dialect}！`);
+                    appendMessage(pref.name + "AI", pref.icon, pref.color, `送ってきたその画像、なんやその気色悪いもんは！ ${pref.dialect}！`);
                 });
             } finally {
                 typingIndicator.classList.add('hidden');
