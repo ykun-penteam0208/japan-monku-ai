@@ -94,7 +94,7 @@
             <div class="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
             <div class="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
         </div>
-        <span id="typingText">複数・多くの都道府県AIたちが血眼になって文句を準備中...</span>
+        <span id="typingText">複数・多くの都道府県AIたちが出番を待ち構え中...</span>
     </div>
 
     <!-- フッター入力フォーム -->
@@ -238,7 +238,6 @@
         const modalMessage = document.getElementById('modalMessage');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-        // 設定モーダル要素
         const settingsBtn = document.getElementById('settingsBtn');
         const settingsModal = document.getElementById('settingsModal');
         const closeSettingsBtn = document.getElementById('closeSettingsBtn');
@@ -340,7 +339,6 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // --- JSONインポート・エクスポート機能 ---
         copyJsonBtn.addEventListener('click', () => {
             const exportData = JSON.stringify(chatHistory, null, 2);
             navigator.clipboard.writeText(exportData).then(() => {
@@ -470,10 +468,8 @@
                 });
             }
 
-            // 新しく追加するユーザーのメッセージ
             const currentMessage = { role: "user", parts: userParts };
 
-            // API用にペイロードを作成（systemInstructionを使用）
             const payload = {
                 systemInstruction: {
                     parts: [{ text: systemPromptText }]
@@ -487,7 +483,8 @@
                 }
             };
 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AQ.Ab8RN6IfiTYuAk4I_Lb21DZ5V5OyOHbguayM0RVzQroVOBvKXA`;
+            // gemini-3.5-flash に変更済み
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=AQ.Ab8RN6IfiTYuAk4I_Lb21DZ5V5OyOHbguayM0RVzQroVOBvKXA`;
 
             try {
                 let response = await fetch(apiUrl, {
@@ -498,7 +495,7 @@
 
                 if (!response.ok) {
                     throw new Error(`API Error: ${response.status}`);
-                }
+    }
 
                 const result = await response.json();
                 const candidate = result.candidates?.[0];
@@ -506,7 +503,6 @@
                     const jsonText = candidate.content.parts[0].text;
                     const parsedResponses = JSON.parse(jsonText);
 
-                    // 成功したら履歴に追加
                     chatHistory.push(currentMessage);
 
                     for (const item of parsedResponses) {
@@ -525,11 +521,10 @@
                 }
             } catch (error) {
                 console.error("API Error details:", error);
-                // エラー時の代替表示
                 const count = 3;
                 const selected = [...PREFECTURES].sort(() => 0.5 - Math.random()).slice(0, count);
                 selected.forEach(pref => {
-                    appendMessage(pref.name + "AI", pref.icon, pref.color, `なにか通信エラー起きてるみたいやけど、それすらも気に入らんわ！ ${pref.dialect}！`);
+                    appendMessage(pref.name + "AI", pref.icon, pref.color, `エラー出てもたやないか！ ${pref.dialect}！`);
                 });
             } finally {
                 typingIndicator.classList.add('hidden');
