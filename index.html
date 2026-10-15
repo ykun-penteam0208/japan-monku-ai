@@ -66,6 +66,10 @@
             </div>
         </div>
         <div class="flex items-center space-x-2">
+            <!-- 設定ボタン -->
+            <button id="settingsBtn" class="p-2 hover:bg-red-950 rounded-full transition text-red-300" title="設定・JSON管理">
+                <i class="fa-solid fa-gear text-lg"></i>
+            </button>
             <button id="clearChatBtn" class="p-2 hover:bg-red-950 rounded-full transition text-red-300" title="チャット履歴クリア">
                 <i class="fa-solid fa-trash-can"></i>
             </button>
@@ -129,6 +133,41 @@
         </div>
     </div>
 
+    <!-- 設定・JSON管理モーダル -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 hidden backdrop-blur-sm p-4">
+        <div class="bg-[#2b0404] border border-red-700 rounded-2xl p-5 w-full max-w-md shadow-2xl text-white space-y-4 flex flex-col max-h-[90dvh]">
+            <div class="flex justify-between items-center border-b border-red-800 pb-2">
+                <h3 class="font-bold text-base text-red-300"><i class="fa-solid fa-gear mr-1"></i> 会話データJSON管理</h3>
+                <button id="closeSettingsBtn" class="text-red-400 hover:text-white text-lg px-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-3 overflow-y-auto flex-1 pr-1 text-xs">
+                <div>
+                    <label class="block font-bold text-red-200 mb-1">1. 会話データJSONコピー (エクスポート)</label>
+                    <p class="text-red-400 text-[11px] mb-1.5">現在の会話・画像履歴をすべてJSON文字列としてコピーします。</p>
+                    <button id="copyJsonBtn" class="w-full bg-red-900 hover:bg-red-800 border border-red-600 text-white font-bold py-2 px-3 rounded-xl transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-copy"></i> JSONをコピーする
+                    </button>
+                </div>
+
+                <hr class="border-red-900">
+
+                <div>
+                    <label class="block font-bold text-red-200 mb-1">2. 会話データJSONインポート (復元)</label>
+                    <p class="text-red-400 text-[11px] mb-1.5">JSONファイルをアップロードするか、下のテキストエリアに直接貼り付けてください。</p>
+                    
+                    <input type="file" id="jsonFileInput" accept=".json" class="w-full bg-red-950/80 border border-red-800 rounded-xl p-1.5 text-xs text-red-200 mb-2 cursor-pointer">
+                    
+                    <textarea id="jsonInputArea" rows="6" placeholder="ここにJSONデータを貼り付け..." class="w-full bg-black/60 border border-red-800 rounded-xl p-2.5 text-xs text-white placeholder-red-500/60 focus:outline-none focus:border-red-500 font-mono"></textarea>
+                    
+                    <button id="importJsonBtn" class="w-full mt-2 bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-bold py-2.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5 shadow">
+                        <i class="fa-solid fa-file-arrow-down"></i> JSONから会話を復元する
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 47都道府県の厳格なデータ（地方名・重複完全排除）
         const PREFECTURES = [
@@ -156,7 +195,7 @@
             { id: "shizuoka", name: "静岡県", dialect: "〜だら・何が富士山だ、調子のるなだら", color: "#06b6d4", icon: "🍵" },
             { id: "aichi", name: "愛知県", dialect: "〜だぎゃあ・どえりゃあアホだなも", color: "#a855f7", icon: "🏯" },
             { id: "mie", name: "三重県", dialect: "〜やんか・何勘違いしとるんやんか", color: "#3b82f6", icon: "🦞" },
-            { id: "shiga", name: "滋賀県", dialect: "〜やんけ・琵琶湖に沈めるぞ", color: "#10b981", icon: "💧" },
+            { id: "shiga", name: "滋賀県", dialect: "〜やんけ・琵琶湖の水沈めるぞ", color: "#10b981", icon: "💧" },
             { id: "kyoto", name: "京都府", dialect: "〜どすえ・えらいおめでたい頭をしてはりますなぁ", color: "#e11d48", icon: "👘" },
             { id: "osaka", name: "大阪府", dialect: "〜やねん・なめとんのかワレボケ", color: "#f59e0b", icon: "🐙" },
             { id: "hyogo", name: "兵庫県", dialect: "〜やん・調子のるなやボケが", color: "#065f46", icon: "🚢" },
@@ -199,12 +238,24 @@
         const modalMessage = document.getElementById('modalMessage');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
 
+        // 設定モーダル要素
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsModal = document.getElementById('settingsModal');
+        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const copyJsonBtn = document.getElementById('copyJsonBtn');
+        const jsonInputArea = document.getElementById('jsonInputArea');
+        const jsonFileInput = document.getElementById('jsonFileInput');
+        const importJsonBtn = document.getElementById('importJsonBtn');
+
         function showAlert(title, message) {
             modalTitle.textContent = title;
             modalMessage.textContent = message;
             customModal.classList.remove('hidden');
         }
         modalCloseBtn.addEventListener('click', () => customModal.classList.add('hidden'));
+
+        settingsBtn.addEventListener('click', () => settingsModal.classList.remove('hidden'));
+        closeSettingsBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
 
         clearChatBtn.addEventListener('click', () => {
             messageList.innerHTML = '';
@@ -289,6 +340,102 @@
             container.scrollTop = container.scrollHeight;
         }
 
+        // --- JSONインポート・エクスポート機能 ---
+        copyJsonBtn.addEventListener('click', () => {
+            const exportData = JSON.stringify(chatHistory, null, 2);
+            navigator.clipboard.writeText(exportData).then(() => {
+                showAlert("成功", "会話データ（JSON）をクリップボードにコピーしました！");
+            }).catch(err => {
+                // クリップボードが使えない場合のフォールバック
+                jsonInputArea.value = exportData;
+                showAlert("コピー失敗", "クリップボードにアクセスできませんでした。下のテキストエリアから手動でコピーしてください。");
+            });
+        });
+
+        jsonFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    jsonInputArea.value = event.target.result;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        importJsonBtn.addEventListener('click', () => {
+            const rawText = jsonInputArea.value.trim();
+            if (!rawText) {
+                showAlert("エラー", "インポートするJSONデータが入力されていません。");
+                return;
+            }
+
+            try {
+                const parsedHistory = JSON.parse(rawText);
+                if (!Array.isArray(parsedHistory)) {
+                    throw new Error("Invalid format");
+                }
+
+                chatHistory = parsedHistory;
+                messageList.innerHTML = ''; // 画面をクリア
+
+                // チャット履歴をUIに復元
+                chatHistory.forEach(entry => {
+                    if (entry.role === 'user') {
+                        let userText = "";
+                        let imgUrl = null;
+
+                        if (Array.isArray(entry.parts)) {
+                            entry.parts.forEach(part => {
+                                if (part.text) userText += part.text;
+                                if (part.inlineData && part.inlineData.data) {
+                                    imgUrl = `data:${part.inlineData.mimeType || 'image/jpeg'};base64,${part.inlineData.data}`;
+                                }
+                            });
+                        }
+                        if (userText !== "（画像のみ送信）" && userText !== "") {
+                            appendMessage("あなた", "👤", "#fff", userText, imgUrl, true);
+                        } else {
+                            appendMessage("あなた", "👤", "#fff", "", imgUrl, true);
+                        }
+                    } else if (entry.role === 'model') {
+                        let modelText = "";
+                        if (Array.isArray(entry.parts)) {
+                            entry.parts.forEach(part => {
+                                if (part.text) modelText += part.text;
+                            });
+                        }
+                        // "都道府県名: 本文" の形式から名前と本文を復元
+                        let senderName = "都道府県AI";
+                        let senderIcon = "🩸";
+                        let senderColor = "#f87171";
+                        let actualText = modelText;
+
+                        if (modelText.includes(":")) {
+                            const colonIndex = modelText.indexOf(":");
+                            const prefName = modelText.substring(0, colonIndex).trim();
+                            actualText = modelText.substring(colonIndex + 1).trim();
+                            const foundPref = PREFECTURES.find(p => p.name === prefName);
+                            if (foundPref) {
+                                senderName = foundPref.name + "AI";
+                                senderIcon = foundPref.icon;
+                                senderColor = foundPref.color;
+                            } else {
+                                senderName = prefName + "AI";
+                            }
+                        }
+                        appendMessage(senderName, senderIcon, senderColor, actualText);
+                    }
+                });
+
+                settingsModal.classList.add('hidden');
+                showAlert("復元完了", "会話データのインポートに成功しました！");
+            } catch (error) {
+                console.error(error);
+                showAlert("エラー", "JSONの形式が正しくありません。正しいデータを入力してください。");
+            }
+        });
+
         async function generatePrefectureComplaints(userText, base64ImgData) {
             typingIndicator.classList.remove('hidden');
             typingText.textContent = "メッセージや画像を観察して、複数の都道府県たちが怒りを蓄積中...";
@@ -310,7 +457,6 @@
   }
 ]`;
 
-            // ユーザーパートの構築（テキスト＋画像がある場合はinlineDataを正しく付与）
             let userParts = [];
             if (userText) {
                 userParts.push({ text: userText });
@@ -375,7 +521,6 @@
                 }
             } catch (error) {
                 console.error("API Error details:", error);
-                // フォールバック（万が一の時でもエラー文言ではなく各都道府県が個別に怒るように修正）
                 const count = 3;
                 const selected = [...PREFECTURES].sort(() => 0.5 - Math.random()).slice(0, count);
                 selected.forEach(pref => {
