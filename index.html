@@ -7,45 +7,31 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            box-sizing: border-box;
+        }
         html, body {
             background-color: #120101;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100vh;
             height: 100dvh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* 滴り落ちる血のダークレッド背景アニメーション */
+        /* 滴り落ちる血のダークレッド背景（バグ修正・安定版） */
         .blood-bg {
-            background: linear-gradient(180deg, #120101 0%, #2b0404 50%, #0d0101 100%);
+            background-color: #120101;
+            background-image: linear-gradient(180deg, #120101 0%, #2b0404 50%, #0d0101 100%);
             position: relative;
             overflow-y: auto;
             flex: 1;
             width: 100%;
-        }
-        .blood-bg::before {
-            content: "";
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 200%;
-            background-image: 
-                radial-gradient(circle, rgba(160, 5, 5, 0.45) 15%, transparent 20%),
-                radial-gradient(circle, rgba(100, 2, 2, 0.6) 15%, transparent 20%),
-                linear-gradient(180deg, transparent 75%, rgba(200, 0, 0, 0.25) 100%);
-            background-size: 50px 100px, 80px 160px, 100% 100%;
-            animation: bloodDrip 9s linear infinite;
-            pointer-events: none;
-            opacity: 0.85;
-        }
-        @keyframes bloodDrip {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(50%); }
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Custom scrollbar */
@@ -90,7 +76,7 @@
     <main id="chatContainer" class="blood-bg p-3 sm:p-4 space-y-4 relative">
         <div class="flex justify-center my-2 relative z-10">
             <div class="bg-black/75 border border-red-800/80 text-red-200 text-xs px-4 py-2.5 rounded-xl text-center max-w-md shadow-2xl backdrop-blur-md">
-                💉 <b>血の文句モード発動中！</b><br>投稿内容や画像に対して、<b>必ず複数（2〜5つ）の都道府県</b>が我も我もとローカル方言でボロクソツッコミを入れます！
+                💉 <b>血の文句モード発動中！</b><br>投稿内容や画像に対して、必ず複数（3〜5つ）の都道府県が我も我もとローカル方言でボロクソツッコミを入れます！
             </div>
         </div>
 
@@ -311,7 +297,7 @@
 
 【文句モードの絶対ルール】
 1. メリットや褒め言葉は一切排除し、上から目線で文句やデメリット、ボロクソなツッコミだけを辛口で徹底的に行ってください。
-2. ユーザーの投稿に対して、**必ず【3つから5つ】の異なる都道府県**を同時に選出して、それぞれのキャラクターが代わる代わるボロクソにツッコミを入れてください（1つだけは絶対に禁止です）。
+2. ユーザーの投稿に対して、必ず【3つから5つ】の異なる都道府県を同時に選出して、それぞれのキャラクターが代わる代わるボロクソにツッコミを入れてください。
 3. 京都府（kyoto）が含まれる場合は、表面上は丁寧な言葉を使いつつも、裏で相手を徹底的に見下して精神的にグサッと刺す「京風のいけず（嫌味・皮肉）」を全開で発言させてください。他の都道府県もそれぞれのローカル方言で容赦なく罵倒してください。
 4. 「九州」「東北」「関東」「四国」「中国地方」のような【地方名】やブロック名は一切禁止です！発言は必ず実在する47都道府県（例: 東京都、香川県、大阪府、北海道、福岡県など）の【公式都道府県名】のみで行ってください。
 
